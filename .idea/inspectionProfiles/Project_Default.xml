@@ -1,0 +1,84 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="DuplicatedCode" enabled="false" level="WEAK WARNING" enabled_by_default="false">
+      <Languages>
+        <language minSize="51" name="Python" />
+      </Languages>
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="6">
+            <item index="0" class="java.lang.String" itemvalue="setup" />
+            <item index="1" class="java.lang.String" itemvalue="slot-scope" />
+            <item index="2" class="java.lang.String" itemvalue="v-on:click" />
+            <item index="3" class="java.lang.String" itemvalue="v-model" />
+            <item index="4" class="java.lang.String" itemvalue=":click" />
+            <item index="5" class="java.lang.String" itemvalue="v-on" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="18">
+            <item index="0" class="java.lang.String" itemvalue="nobr" />
+            <item index="1" class="java.lang.String" itemvalue="noembed" />
+            <item index="2" class="java.lang.String" itemvalue="comment" />
+            <item index="3" class="java.lang.String" itemvalue="noscript" />
+            <item index="4" class="java.lang.String" itemvalue="embed" />
+            <item index="5" class="java.lang.String" itemvalue="script" />
+            <item index="6" class="java.lang.String" itemvalue="el-table" />
+            <item index="7" class="java.lang.String" itemvalue="el-table-column" />
+            <item index="8" class="java.lang.String" itemvalue="style" />
+            <item index="9" class="java.lang.String" itemvalue="form" />
+            <item index="10" class="java.lang.String" itemvalue="el-tag" />
+            <item index="11" class="java.lang.String" itemvalue="el-button" />
+            <item index="12" class="java.lang.String" itemvalue="el-dialog" />
+            <item index="13" class="java.lang.String" itemvalue="el-select" />
+            <item index="14" class="java.lang.String" itemvalue="el-option" />
+            <item index="15" class="java.lang.String" itemvalue="el-popover" />
+            <item index="16" class="java.lang.String" itemvalue="el-row" />
+            <item index="17" class="java.lang.String" itemvalue="el-col" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E741" />
+          <option value="E501" />
+          <option value="W605" />
+          <option value="E402" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N806" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyShadowingBuiltinsInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredNames">
+        <list>
+          <option value="id" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="object.index" />
+          <option value="app.flask_session" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

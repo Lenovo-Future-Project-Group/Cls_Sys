@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <!-- 引入element-ui CSS -->
+    <link rel='stylesheet' href='../static/css/element.mian.css'>
+    <title>数据查看</title>
+</head>
+<body>
+<style>
+    /** vue需要在引入element-ui之前引入 **/
+    [v-cloak] {
+        display: none;
+    }
+</style>
+</body>
+<!-- vue需要在引入element-ui之前引入 -->
+<script src='../static/js/vue.js'></script>
+<!-- 引入element-ui js -->
+<script src='../static/js/element.mian.js'></script>
+<!-- 引入canvas -->
+<script src='../static/js/v-fit-columns.js'></script>
+
+<div id='app' v-cloak>
+    <div>
+        <el-table v-fit-columns
+                  :data='tableData' style='width: 100%;margin-bottom: 20px;' row-key='id' border default-expand-all
+                  :tree-props='{children: "children", hasChildren: "hasChildren"}'>
+            <!-- 
+                举例：
+                inspect_res_list： 
+                [
+                    {'id': 3, 'cls': '大数据201', 'bzr': '吴洁', 'inspect_time': 4, 
+                    'inspect_items': {
+                        'classroom': {'分数': 80, '减分项': {'纸屑': 10, '黑板': 10}}, 
+                        'dormitory': {'分数': 80, '减分项': {'床铺': 10, '衣物叠放': 10}}, 
+                        'personal': {'分数': 80, '减分项': {'指甲': 10, '头发': 10}}, 
+                        'floor': {'分数': 80, '减分项': {'地面': 10, '垃圾桶': 10}}, 
+                        'discipline': {'分数': 80, '减分项': {'上课打闹': 10, '玩手机': 10}}
+                        }
+                    },{},{},
+                ]
+                ziDuan举例：id、cls、inspect_items
+             -->
+            {% for ziDuan in inspect_res_list[0].keys() %}
+                {% if ziDuan != "inspect_items" %}
+                    <el-table-column prop='{{ ziDuan }}' label='{{ ziDuan }}' sortable></el-table-column>
+                {% else %}
+                    <!-- 
+                        举例：  inspect_res_list[0][ziDuan]：
+                        {
+                            'classroom': {'分数': 80, '减分项': {'纸屑': 10, '黑板': 10}}, 
+                            'dormitory': {'分数': 80, '减分项': {'床铺': 10, '衣物叠放': 10}}, 
+                            'personal': {'分数': 80, '减分项': {'指甲': 10, '头发': 10}}, 
+                            'floor': {'分数': 80, '减分项': {'地面': 10, '垃圾桶': 10}}, 
+                            'discipline': {'分数': 80, '减分项': {'上课打闹': 10, '玩手机': 10}}
+                        }
+                        title 是classroom、dormitory、personal
+                        detail是对应的的字典
+                    -->
+                    {% for title,detail in inspect_res_list[0][ziDuan].items() %}
+                        <el-table-column label='{{ title }}'>
+                            <template slot-scope='scope'>
+                                <el-popover trigger='hover' placement='top'>
+                                    <!-- 
+                                        举例：
+                                        {'分数': 80, '减分项': {'纸屑': 10, '黑板': 10}}
+                                        key是“纸屑”
+                                        value是10
+                                     -->
+                                    <div  v-for="(value,key,index) in scope.row.{{title}}.减分项">
+                                        <p>{[key]}:{[value]}</p>
+                                        <!-- <p>{[scope.row.{{title}}.减分项]}</p> -->
+                                    </div>
+
+                                    <div slot='reference' class='name-wrapper'>
+                                        <!-- 这个是显示分数 -->
+                                        <!-- <el-tag size='medium'>{{ detail["分数"] }}</el-tag> -->
+                                        <el-tag size='medium'>{[ scope.row.{{ title }}.分数 ]}</el-tag>
+                                    </div>
+                                </el-popover>
+                            </template>
+                        </el-table-column>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+            <!--
+            <el-table-column label='操作'>
+                <template slot-scope='scope'>
+                    <el-button
+                            size='mini'
+                            @click='handleEdit(scope.$index, scope.row)'>编辑
+                    </el-button>
+                    <el-button
+                            size='mini'
+                            type='danger'
+                            @click='handleDelete(scope.$index, scope.row)'>删除
+                    </el-button>
+                </template>
+            </el-table-column>
+            -->
+
+        </el-table>
+    </div>
+</div>
+
+<script>
+    const Main = new Vue({
+        el: '#app',
+        data: {
+            name: 'Hello Flask',
+            // inspect_items:[{{ inspect_res_list[0]["inspect_items"].keys() }}],
+            tableData:
+                [
+                    // 对检查列表进行遍历
+                    {% for res_dict in inspect_res_list %}
+                        // ssss
+                        { 
+                            // 对结果进行便利
+                            {% for zi_duan,v in res_dict.items() %}
+                                {% if zi_duan != "inspect_items" %}
+                                    // 如果不是“检查项”，就正常显示
+                                    {{ zi_duan }}:"{{ v }}",
+                                {% else %}
+                                    // 否则，就显示分数和弹窗数据
+                                    // 举例：{
+                                    //          personal:{"分数":80,"减分项":{"头发":10,"服装":10}},
+                                    //          classroom:{"分数":80,"减分项":{"纸屑":10,"黑板":10}},
+                                    //      }
+                                    {% for title,item_dict in res_dict["inspect_items"].items() %}
+                                        // 例如：“each_item”：classroom、dormitory、personal
+                                        {{ title }}:{
+                                            分数:{{ item_dict["分数"] }},
+                                            减分项:{
+                                                // 对减分项进行遍历
+                                                // 举例：{"分数":80,"减分项":{"头发":10,"服装":10}}
+                                                {% for key,score in item_dict['减分项'].items() %}
+                                                    // 举例：床铺:"10",
+                                                    "{{ key }}":"{{ score }}",
+                                                {% endfor %}
+                                            },
+                                        },
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        },
+                    {% endfor %}
+                ],
+    methods: {
+    }
+    ,
+    },
+    delimiters: ['{[', ']}']
+    })
+
+    const UserData = {
+        data() {
+            return {
+                formInline: {
+                    user: '',
+                    region: ''
+                }
+            }
+        },
+        methods: {
+            onSubmit() {
+                console.log('submit!');
+            }
+        }
+    }
+    const Ctor = Vue.extend(UserData)
+    new Ctor().$mount('#user_data')
+</script>
+
+
+</html>
